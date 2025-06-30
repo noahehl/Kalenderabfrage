@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Kalender-Abfrage</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #f4f4f4;
+      border-radius: 10px;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+    }
+    button {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      margin-top: 20px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Kalender-Abfrage</h2>
+  <form action="https://example.com/form-handler" method="POST">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="teilnahme">Teilnahme möglich?</label>
+    <select id="teilnahme" name="teilnahme" required>
+      <option value="">Bitte wählen</option>
+      <option value="Ja">Ja</option>
+      <option value="Nein">Nein</option>
+    </select>
+
+    <label for="kommentar">Kommentar / Alternative:</label>
+    <textarea id="kommentar" name="kommentar" rows="4" placeholder="z. B. Ich kann erst ab 17 Uhr..."></textarea>
+
+    <button type="submit">Absenden</button>
+  </form>
+
+</body>
+</html>
