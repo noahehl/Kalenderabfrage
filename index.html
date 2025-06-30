@@ -6,11 +6,10 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      max-width: 600px;
-      margin: 50px auto;
+      max-width: 800px;
+      margin: 40px auto;
       padding: 20px;
       background-color: #f4f4f4;
-      border-radius: 10px;
     }
     label {
       display: block;
@@ -34,27 +33,95 @@
     button:hover {
       background-color: #0056b3;
     }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+    }
+    th, td {
+      border: 1px solid #999;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #ddd;
+    }
   </style>
 </head>
 <body>
 
   <h2>Kalender-Abfrage</h2>
-  <form action="https://example.com/form-handler" method="POST">
+
+  <form id="kalenderForm">
     <label for="name">Name:</label>
-    <input type="text" id="name" name="name" required>
+    <input type="text" id="name" required>
 
     <label for="teilnahme">Teilnahme möglich?</label>
-    <select id="teilnahme" name="teilnahme" required>
+    <select id="teilnahme" required>
       <option value="">Bitte wählen</option>
       <option value="Ja">Ja</option>
       <option value="Nein">Nein</option>
     </select>
 
     <label for="kommentar">Kommentar / Alternative:</label>
-    <textarea id="kommentar" name="kommentar" rows="4" placeholder="z. B. Ich kann erst ab 17 Uhr..."></textarea>
+    <textarea id="kommentar" rows="4"></textarea>
 
     <button type="submit">Absenden</button>
   </form>
+
+  <h3>Einträge:</h3>
+  <table id="eintragsTabelle">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Teilnahme</th>
+        <th>Kommentar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Dynamisch gefüllt -->
+    </tbody>
+  </table>
+
+  <script>
+    const form = document.getElementById("kalenderForm");
+    const tableBody = document.querySelector("#eintragsTabelle tbody");
+
+    // Daten aus LocalStorage laden
+    let eintraege = JSON.parse(localStorage.getItem("eintraege")) || [];
+
+    function renderTabelle() {
+      tableBody.innerHTML = "";
+      eintraege.forEach(eintrag => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${eintrag.name}</td>
+          <td>${eintrag.teilnahme}</td>
+          <td>${eintrag.kommentar}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const teilnahme = document.getElementById("teilnahme").value;
+      const kommentar = document.getElementById("kommentar").value.trim();
+
+      const neuerEintrag = { name, teilnahme, kommentar };
+      eintraege.push(neuerEintrag);
+
+      localStorage.setItem("eintraege", JSON.stringify(eintraege));
+      renderTabelle();
+
+      form.reset();
+    });
+
+    // Beim Laden Seite initialisieren
+    renderTabelle();
+  </script>
 
 </body>
 </html>
